@@ -220,6 +220,12 @@ public class crankyScript : MonoBehaviour
 			barelies[i] = (int)(Math.Pow(Random.value, 2) * 50);
 			misses[i] = (int)(Math.Pow(Random.value, 4) * 50);
 			if (barelies[i] + misses[i] == 0) all[i] = 250;
+			else all[i] = Mathf.CeilToInt(
+				(misses[i]+.25f*barelies[i])
+				/
+				(1-Mathf.FloorToInt(
+					(all[i] - misses[i] - .25f * barelies[i]) / all[i] * 10000
+				)/10000f));
 			Debug.LogFormat("[Cranky's Sections #{0}] Section {1}: {2} / {3} @ {4}. Percentage: {5}", ModuleId, i,barelies[i],misses[i],all[i],percentage(all[i], misses[i], barelies[i]));
 		}
 		answer = solvables==0?"100.00%":percentage(all.Sum(), misses.Sum(), barelies.Sum());
